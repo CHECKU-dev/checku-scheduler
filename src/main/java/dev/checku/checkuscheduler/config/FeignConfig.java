@@ -1,0 +1,12 @@
+package dev.checku.checkuscheduler.config;
+
+import org.springframework.cloud.openfeign.EnableFeignClients;
+import org.springframework.cloud.openfeign.FeignClientsConfiguration;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
+
+@Configuration
+@EnableFeignClients(basePackages = "dev.checku.checkuscheduler")
+@Import(FeignClientsConfiguration.class)
+public class FeignConfig {
+}
