@@ -1,0 +1,29 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /
+
+spring:
+
+  profiles:
+    active: dev
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+    properties:
+      hibernate:
+        format_sql : true
+        default_batch_fetch_size: 1000
+
+    show-sql: true
+    open-in-view: false
+
+logging:
+  level:
+    org.hibernate.type: trace
+
+portal:
+  id: ENC(DRS+qlHc2yid2Lu3e4bXKg==)
+  password: ENC(UivIGhul+oPzVpkWLCkRwzmHSfwyZIzD)

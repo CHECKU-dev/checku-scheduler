@@ -1,0 +1,15 @@
+spring:
+
+  datasource:
+    url: ENC(suRh/TsWYaxtQVGNO6CSl1P4hTpIu42IsxDiZVsLsMc=)
+    username: ENC(JDxBeiq1lrYh/2LNOWfMhg==)
+    password:
+    driver-class-name: org.h2.Driver
+
+  h2:
+    console:
+      enabled: true
+
+  jpa:
+    hibernate:
+      ddl-auto: create
