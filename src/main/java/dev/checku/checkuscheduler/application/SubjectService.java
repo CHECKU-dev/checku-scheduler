@@ -3,6 +3,7 @@ package dev.checku.checkuscheduler.application;
 import dev.checku.checkuscheduler.domain.subject.dao.SubjectRepository;
 import dev.checku.checkuscheduler.domain.subject.dto.SubjectListDto;
 import dev.checku.checkuscheduler.domain.subject.entity.Subject;
+import dev.checku.checkuscheduler.domain.topic.Topic;
 import feign.Response;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,11 +22,12 @@ public class SubjectService {
 
     private final PortalFeignClient portalFeignClient;
     private final SubjectRepository subjectRepository;
+    private final SendFeignClient sendFeignClient;
 
     @Value("${portal.id}")
     private String ID;
 
-    @Value("${portal.password}")
+    @Value("${portal.pwd}")
     private String PASSWORD;
 
     private String getSession() {
@@ -135,18 +137,32 @@ public class SubjectService {
         return subjectRepository.findFullSubjects();
     }
 
-    public void findVacancy() {
-        List<Subject> fullSubjects = getFullSubjectsFromDb();
+    public void findVacancy(List<Topic> topicList) {
+//        List<Subject> fullSubjects = getFullSubjectsFromDb();
 
-        List<Subject> vacantSubjects = fullSubjects.stream()
-                .filter(subject -> {
-                    SubjectListDto subjectListDto = getSubjectFromPortal(subject.getSubjectNumber());
-                    //TODO subjectListDto empty 검사
+        List<Topic> vacantSubjects = topicList.stream()
+                .filter(topic -> {
+                    SubjectListDto subjectListDto = getSubjectFromPortal(topic.getSubjectNumber());
                     Subject subjectFromPortal = subjectListDto.getSubjects().get(0).toEntity();
                     log.info("빈 자리 찾음({}): {}/{}", subjectFromPortal.getSubjectNumber(), subjectFromPortal.getCurrentNumber(), subjectFromPortal.getLimitNumber());
                     return subjectFromPortal.getCurrentNumber() < subjectFromPortal.getLimitNumber();
-                })
-                .collect(Collectors.toList());
+
+                }).collect(Collectors.toList());
+
+        if (vacantSubjects.size() != 0) {
+            vacantSubjects.forEach(topic -> sendFeignClient.sendTopic(TopicDto.of(topic)));
+        }
+
+
+//        List<Subject> vacantSubjects = fullSubjects.stream()
+//                .filter(subject -> {
+//                    SubjectListDto subjectListDto = getSubjectFromPortal(subject.getSubjectNumber());
+//                    //TODO subjectListDto empty 검사
+//                    Subject subjectFromPortal = subjectListDto.getSubjects().get(0).toEntity();
+//                    log.info("빈 자리 찾음({}): {}/{}", subjectFromPortal.getSubjectNumber(), subjectFromPortal.getCurrentNumber(), subjectFromPortal.getLimitNumber());
+//                    return subjectFromPortal.getCurrentNumber() < subjectFromPortal.getLimitNumber();
+//                })
+//                .collect(Collectors.toList());
     }
 
     @Transactional

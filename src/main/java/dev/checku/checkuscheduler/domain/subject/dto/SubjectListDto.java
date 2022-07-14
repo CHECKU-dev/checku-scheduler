@@ -12,7 +12,6 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@ToString
 public class SubjectListDto {
 
     @JsonProperty(value = "DS_SUSTTIMETABLE")
@@ -20,7 +19,6 @@ public class SubjectListDto {
 
     @Getter
     @Setter
-    @ToString
     @JsonIncludeProperties(value = {
             "OPEN_SHYR",
             "KOR_NM",
