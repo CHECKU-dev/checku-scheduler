@@ -2,10 +2,7 @@ package dev.checku.checkuscheduler.domain.subject.entity;
 
 import dev.checku.checkuscheduler.domain.subject.model.SubjectGrade;
 import dev.checku.checkuscheduler.domain.subject.model.SubjectType;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -23,6 +20,7 @@ public class Subject {
     @Enumerated(EnumType.STRING)
     private SubjectType subjectType;
 
+    @Column(unique = true)
     private String subjectNumber;
 
     @Lob
