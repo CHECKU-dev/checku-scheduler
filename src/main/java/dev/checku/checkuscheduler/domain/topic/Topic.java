@@ -19,5 +19,14 @@ public class Topic {
     @Column(nullable = false, unique = true)
     private String subjectNumber;
 
+    @Builder
+    public Topic(String subjectNumber) {
+        this.subjectNumber = subjectNumber;
+    }
+
+    public static Topic of() {
+        return Topic.builder().subjectNumber("1225").build();
+    }
+
 
 }

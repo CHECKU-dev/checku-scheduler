@@ -138,31 +138,18 @@ public class SubjectService {
     }
 
     public void findVacancy(List<Topic> topicList) {
-//        List<Subject> fullSubjects = getFullSubjectsFromDb();
-
         List<Topic> vacantSubjects = topicList.stream()
                 .filter(topic -> {
                     SubjectListDto subjectListDto = getSubjectFromPortal(topic.getSubjectNumber());
                     Subject subjectFromPortal = subjectListDto.getSubjects().get(0).toEntity();
                     log.info("빈 자리 찾음({}): {}/{}", subjectFromPortal.getSubjectNumber(), subjectFromPortal.getCurrentNumber(), subjectFromPortal.getLimitNumber());
                     return subjectFromPortal.getCurrentNumber() < subjectFromPortal.getLimitNumber();
-
                 }).collect(Collectors.toList());
 
         if (vacantSubjects.size() != 0) {
             vacantSubjects.forEach(topic -> sendFeignClient.sendTopic(TopicDto.of(topic)));
         }
 
-
-//        List<Subject> vacantSubjects = fullSubjects.stream()
-//                .filter(subject -> {
-//                    SubjectListDto subjectListDto = getSubjectFromPortal(subject.getSubjectNumber());
-//                    //TODO subjectListDto empty 검사
-//                    Subject subjectFromPortal = subjectListDto.getSubjects().get(0).toEntity();
-//                    log.info("빈 자리 찾음({}): {}/{}", subjectFromPortal.getSubjectNumber(), subjectFromPortal.getCurrentNumber(), subjectFromPortal.getLimitNumber());
-//                    return subjectFromPortal.getCurrentNumber() < subjectFromPortal.getLimitNumber();
-//                })
-//                .collect(Collectors.toList());
     }
 
     @Transactional
