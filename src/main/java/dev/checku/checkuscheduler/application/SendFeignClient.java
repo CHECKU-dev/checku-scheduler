@@ -4,7 +4,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@FeignClient(url = "http://localhost:8080", name = "SendFeignClient")
+@FeignClient(url = "http://localhost:8000", name = "SendFeignClient")
 
 public interface SendFeignClient {
 

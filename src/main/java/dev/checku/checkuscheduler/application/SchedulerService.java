@@ -7,6 +7,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -17,16 +18,8 @@ public class SchedulerService {
     private final SubjectService subjectService;
     private final TopicService topicService;
 
-//    //TODO 주기 수정
-//    @Scheduled(cron = "0/10 * * * * *")
-//    @Transactional
-//    public void updateSubjectTable() {
-//        subjectService.deleteSubjects();
-//        subjectService.insertSubjects();
-//    }
-
     //TODO 주기 수정
-    @Scheduled(cron = "0/15 * * * * *")
+    @Scheduled(cron = "0/20 * * * * *")
     public void findVacancy() {
         List<Topic> topicList = topicService.getTopicList();
         subjectService.findVacancy(topicList);

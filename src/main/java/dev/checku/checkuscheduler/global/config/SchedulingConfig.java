@@ -1,4 +1,4 @@
-package dev.checku.checkuscheduler.config;
+package dev.checku.checkuscheduler.global.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;

@@ -26,13 +26,17 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+//    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
     implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.4'
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'com.h2database:h2'
     runtimeOnly 'mysql:mysql-connector-java'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    // feign client
+    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign:3.1.0'
+
 }
 
 dependencyManagement {
