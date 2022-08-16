@@ -1,4 +1,4 @@
-package dev.checku.checkuscheduler.domain.topic;
+package dev.checku.checkuscheduler.domain.topic.entity;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -14,7 +14,8 @@ public class Topic {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long topicId;
+    @Column(name = "topic_id")
+    private Long Id;
 
     @Column(nullable = false, unique = true)
     private String subjectNumber;

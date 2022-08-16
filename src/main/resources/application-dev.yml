@@ -5,10 +5,7 @@ spring:
     password: ENC(FWKWzF73KODPLiwC0l36gq48cIgaitQA)
     driver-class-name: com.mysql.cj.jdbc.Driver
 
-  h2:
-    console:
-      enabled: true
 
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: none

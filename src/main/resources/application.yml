@@ -4,9 +4,9 @@ server:
     context-path: /
 
 spring:
-
   profiles:
     active: dev
+
 portal:
   id: ${PORTAL_ID}
   pwd: ${PORTAL_PWD}
@@ -14,20 +14,6 @@ jasypt:
   encryptor:
     bean: jasyptStringEncryptor
     password: ${JASYPT_PASSWORD}
-#  jpa:
-#    hibernate:
-#      ddl-auto: update
 
-#    properties:
-#      hibernate:
-#        format_sql : true
-#        default_batch_fetch_size: 1000
-
-#    show-sql: true
-#    open-in-view: false
-
-#logging:
-#  level:
-#    org.hibernate.type: trace
 
 
