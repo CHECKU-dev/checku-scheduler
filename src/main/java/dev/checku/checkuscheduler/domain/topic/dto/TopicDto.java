@@ -1,7 +1,6 @@
-package dev.checku.checkuscheduler.application;
+package dev.checku.checkuscheduler.domain.topic.dto;
 
-import dev.checku.checkuscheduler.domain.topic.Topic;
-import feign.Response;
+import dev.checku.checkuscheduler.domain.topic.entity.Topic;
 import lombok.*;
 
 @Getter

@@ -1,5 +1,6 @@
-package dev.checku.checkuscheduler.application;
+package dev.checku.checkuscheduler.domain.subject.application;
 
+import dev.checku.checkuscheduler.domain.topic.dto.TopicDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

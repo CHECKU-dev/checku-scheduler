@@ -13,7 +13,8 @@ public class Subject {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "SUBJECT_ID")
+    private Long Id;
 
     private String name;
 
@@ -40,16 +41,9 @@ public class Subject {
     private Integer limitNumber;
 
     @Builder
-    public Subject(String name,
-                   SubjectType subjectType,
-                   String subjectNumber,
-                   String remark,
-                   SubjectGrade subjectGrade,
-                   String department,
-                   String timeAndPlace,
-                   String professor,
-                   Integer currentNumber,
-                   Integer limitNumber) {
+    public Subject(String name, SubjectType subjectType, String subjectNumber, String remark,
+                   SubjectGrade subjectGrade, String department, String timeAndPlace, String professor,
+                   Integer currentNumber, Integer limitNumber) {
         this.name = name;
         this.subjectType = subjectType;
         this.subjectNumber = subjectNumber;
