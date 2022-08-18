@@ -53,7 +53,7 @@ public class SubjectService {
                 }).collect(Collectors.toList());
 
         if (vacantSubjects.size() != 0) {
-            for (Topic topic : topicList) {
+            for (Topic topic : vacantSubjects) {
                 log.info("빈 자리 찾음({})", topic.getSubjectNumber());
                 sendFeignClient.sendTopic(TopicDto.of(topic));
             }
