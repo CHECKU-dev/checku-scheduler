@@ -34,13 +34,12 @@ public class SubjectService {
         ResponseEntity<PortalRes> response = portalFeignClient.getSubject(
                 session,
                 Values.headers,
-                Values.getSubjectBody("2022", "B01012", "", "", subjectNumber));
+                Values.getSubjectBody("", "", subjectNumber));
 
 
         return Objects.requireNonNull(response.getBody()).getSubjects().get(0);
 
     }
-
 
 
     public void findVacancy(List<Topic> topicList) {

@@ -12,9 +12,12 @@ import java.util.Map;
 @Component
 public class Values {
 
-
     private static String ID;
     private static String PWD;
+
+    private static final String YEAR = "2023"; // 연도
+    private static final String SHTM = "B01011"; // 학기
+
 
     private Values(@Value("${portal.id}") String id, @Value("${portal.pwd}") String pwd) {
         Values.ID = id;
@@ -58,8 +61,7 @@ public class Values {
     }
 
     public static MultiValueMap<String, String> getSubjectBody(
-            String year, String shtm, String subjectType,
-            String department, String subjectNumber) {
+            String subjectType, String department, String subjectNumber) {
 
         MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
         body.add("Oe2Ue", "#9e4ki");
@@ -77,9 +79,9 @@ public class Values {
         body.add("@d#", "@d1#");
         body.add("@d1#", "dsParam");
         body.add("@d1#tp", "dm");
-        body.add("@d1#ltYy", year);
+        body.add("@d1#ltYy", YEAR);
         // 학기 구분
-        body.add("@d1#ltShtm", shtm);
+        body.add("@d1#ltShtm", SHTM);
         // 이수 구분
         body.add("@d1#pobtDiv", subjectType);
         // 학과 번호
@@ -89,7 +91,6 @@ public class Values {
         return body;
 
     }
-
 
 
 }
