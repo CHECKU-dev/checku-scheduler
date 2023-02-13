@@ -19,7 +19,9 @@ public enum ErrorCode {
 
     SUBJECT_NOT_FOUND(400, "해당 과목을 찾을 수 없습니다."),
     MY_SUBJECT_NOT_FOUND(400, "해당 과목을 찾을 수 없습니다."),
-    HAVA_A_VACANCY(400, "해당 과목은 빈 자리가 남아있습니다.");
+    HAVA_A_VACANCY(400, "해당 과목은 빈 자리가 남아있습니다."),
+    // 세션
+    SESSION_NOT_FOUND(400, "해당 세션을 찾을 수 없습니다.");
 
 
     ErrorCode(int status, String message) {

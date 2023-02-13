@@ -1,11 +1,11 @@
 package dev.checku.checkuscheduler.domain.subject.application;
 
+import dev.checku.checkuscheduler.domain.portal.application.PortalFeignClient;
+import dev.checku.checkuscheduler.domain.portal.application.PortalSessionService;
 import dev.checku.checkuscheduler.domain.subject.entity.Subject;
 import dev.checku.checkuscheduler.domain.topic.entity.Topic;
 import dev.checku.checkuscheduler.domain.topic.dto.TopicDto;
-import dev.checku.checkuscheduler.infra.portal.LoginService;
-import dev.checku.checkuscheduler.infra.portal.PortalFeignClient;
-import dev.checku.checkuscheduler.infra.portal.PortalRes;
+import dev.checku.checkuscheduler.domain.portal.dto.PortalRes;
 import dev.checku.checkuscheduler.global.util.Values;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,9 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -24,37 +23,42 @@ import java.util.stream.Collectors;
 public class SubjectService {
 
     private final PortalFeignClient portalFeignClient;
-    private final SendFeignClient sendFeignClient;
-    private final LoginService loginService;
-
+    private final checkuFeignClient checkuFeignClient;
+    private final PortalSessionService portalSessionService;
 
     private PortalRes.SubjectDto getSubjectFromPortal(String subjectNumber) {
-        String session = loginService.login();
-
         ResponseEntity<PortalRes> response = portalFeignClient.getSubject(
-                session,
+                portalSessionService.getPortalSession().getSession(),
                 Values.headers,
                 Values.getSubjectBody("", "", subjectNumber));
 
+        if (response.getBody().getSubjects() == null) { // 세션 만료
+            checkuFeignClient.updateSession();
+            return null;
+        }
 
-        return Objects.requireNonNull(response.getBody()).getSubjects().get(0);
-
+        return response.getBody().getSubjects().get(0);
     }
 
 
     public void findVacancy(List<Topic> topicList) {
 
-        List<Topic> vacantSubjects = topicList.stream()
-                .filter(topic -> {
-                    PortalRes.SubjectDto subjectDto = getSubjectFromPortal(topic.getSubjectNumber());
-                    Subject subjectFromPortal = subjectDto.toSubject();
-                    return subjectFromPortal.getCurrentNumber() < subjectFromPortal.getLimitNumber();
-                }).collect(Collectors.toList());
+        List<Topic> vacantSubjects = new ArrayList<>();
+        for (Topic topic : topicList) {
+            PortalRes.SubjectDto subject = getSubjectFromPortal(topic.getSubjectNumber());
+            if (subject == null) {
+                break;
+            }
+            Subject subjectFromPortal = subject.toSubject();
+            if (subjectFromPortal.getCurrentNumber() < subjectFromPortal.getLimitNumber()) {
+                vacantSubjects.add(topic);
+            }
+        }
 
         if (vacantSubjects.size() != 0) {
             for (Topic topic : vacantSubjects) {
                 log.info("빈 자리 찾음({})", topic.getSubjectNumber());
-                sendFeignClient.sendTopic(TopicDto.of(topic));
+                checkuFeignClient.sendTopic(TopicDto.of(topic));
             }
         }
     }
