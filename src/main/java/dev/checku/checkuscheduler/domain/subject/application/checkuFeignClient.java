@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@FeignClient(url = "http://localhost:8000", name = "checkuFeignClient")
+@FeignClient(url = "http://13.209.191.134:8000", name = "${checku.url}")
 public interface checkuFeignClient {
 
     @PostMapping(value = "/api/notification/topic", consumes = "application/json")

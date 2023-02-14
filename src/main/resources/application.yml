@@ -25,5 +25,8 @@ jasypt:
     bean: jasyptStringEncryptor
     password: ${JASYPT_PASSWORD}
 
+checku:
+  url: ENC(nPNUhvugiZeCjj7DB5GpflSqDOSto9wziqI8xvCpE6YJZuUTLFNVGw==)
+
 
 
