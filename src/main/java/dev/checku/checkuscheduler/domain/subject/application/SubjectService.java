@@ -3,6 +3,7 @@ package dev.checku.checkuscheduler.domain.subject.application;
 import dev.checku.checkuscheduler.domain.portal.application.PortalFeignClient;
 import dev.checku.checkuscheduler.domain.portal.application.PortalSessionService;
 import dev.checku.checkuscheduler.domain.subject.entity.Subject;
+import dev.checku.checkuscheduler.domain.topic.application.TopicService;
 import dev.checku.checkuscheduler.domain.topic.entity.Topic;
 import dev.checku.checkuscheduler.domain.topic.dto.TopicDto;
 import dev.checku.checkuscheduler.domain.portal.dto.PortalRes;
@@ -10,6 +11,7 @@ import dev.checku.checkuscheduler.global.util.Values;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +24,7 @@ import java.util.List;
 @Slf4j
 public class SubjectService {
 
+    private final TopicService topicService;
     private final PortalFeignClient portalFeignClient;
     private final checkuFeignClient checkuFeignClient;
     private final PortalSessionService portalSessionService;
@@ -41,7 +44,7 @@ public class SubjectService {
     }
 
 
-    public void findVacancy(List<Topic> topicList) {
+    public void findVacancyFromPortal(List<Topic> topicList) {
 
         List<Topic> vacantSubjects = new ArrayList<>();
         for (Topic topic : topicList) {
@@ -61,6 +64,12 @@ public class SubjectService {
                 checkuFeignClient.sendTopic(TopicDto.of(topic));
             }
         }
+    }
+
+    @Scheduled(cron = "0/59 * * * * *")
+    public void findVacancy() {
+        List<Topic> topicList = topicService.getTopicList();
+        findVacancyFromPortal(topicList);
     }
 
 }
