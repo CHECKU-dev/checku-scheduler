@@ -17,7 +17,6 @@ import java.util.List;
 @EnableScheduling
 @RequiredArgsConstructor
 public class SchedulingConfig implements SchedulingConfigurer {
-
     private final int POOL_SIZE = 3;
 
     @Override
